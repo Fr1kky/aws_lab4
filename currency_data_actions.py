@@ -1,7 +1,4 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
+#!/usr/bin/env python3
 
 
 import pandas as pd
@@ -16,9 +13,6 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 
 
-# In[3]:
-
-
 def file_preparation(response, file_name, bucket):
     if response.status_code == 200: 
         data = response.json()
@@ -28,9 +22,6 @@ def file_preparation(response, file_name, bucket):
         print('Ok') 
     else:
         print("Error: Failed to retrieve data from API")
-
-
-# In[2]:
 
 
 def upload_file(file_name, bucket, object_name):
@@ -43,9 +34,6 @@ def upload_file(file_name, bucket, object_name):
     return True
 
 
-# In[4]:
-
-
 def read_data(file, bucket):
     s3 = boto3.resource('s3')
     s3_object = s3.Bucket(bucket).Object(file).get()
@@ -53,8 +41,6 @@ def read_data(file, bucket):
     pd_data = pd.read_csv(StringIO(data))
     return pd_data
 
-
-# In[14]:
 
 
 def plot_data(df1, df2, graph_file_name, currency1, currency2):
@@ -73,9 +59,6 @@ def plot_data(df1, df2, graph_file_name, currency1, currency2):
     plt.show()
 
 
-# In[6]:
-
-
 urlEur = 'https://bank.gov.ua/NBU_Exchange/exchange_site?start=20210101&end=20211231&valcode=eur&sort=exchangedate&order=asc&json'
 urlUsd = 'https://bank.gov.ua/NBU_Exchange/exchange_site?start=20210101&end=20211231&valcode=usd&sort=exchangedate&order=asc&json'
 
@@ -85,8 +68,6 @@ responseUsd = requests.get(urlUsd)
 file_preparation(responseEur, 'outputEur.csv', 'bucketawslab2')
 file_preparation(responseUsd, 'outputUsd.csv', 'bucketawslab2')
 
-
-# In[15]:
 
 
 df_eur_data = read_data('outputEur.csv', 'bucketawslab2')
